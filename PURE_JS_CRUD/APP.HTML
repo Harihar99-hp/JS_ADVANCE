@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>js crud only</title>
+    <style>
+        .input_table{
+            border: 2px solid red;
+        }
+        .show_data{
+            padding: 3px;
+        }
+
+    </style>
+</head>
+<body>
+    <div>
+        <h1>agmin use only </h1>
+        <div>
+            <form>
+                <table class="input_table" onsubmit="event.preventDefault()">
+                    <tr>
+                        <td> <label>Employee id</label></td>
+                        <td> <label>Full Name </label></td>
+                        <td> <label>Department</label></td>
+                        <td> <label>Joining date</label></td>
+                        <td> <label>Salary</label></td>
+                        <td> <label>notes</label></td>
+                        <td> <label>add</label></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" placeholder="E_ID" id="E_ID" ></input></td> 
+                        <td><input type="text" placeholder="FullName" id="FullName" ></input></td>
+                        <td><input type="text" placeholder="Department" id="Department" ></input></td> 
+                        <td><input type="datetime-local" id="Date" ></input></td>
+                        <td><input type="text" placeholder="Salary" id="Salary" ></input></td>
+                        <td><input type="text" placeholder="Add notes.." id="Notes" ></input></td>
+                        <!-- <td><input type="button" id=""></td> -->
+                        <td><Button type="button" onclick="add_new_user()">update</Button></td>
+
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    <div>
+        <h1>Emploor table </h1>
+        <table border="1" class="Show_E_data">
+            <thead>
+                <tr>
+                    <th> Employee id  </th>
+                    <th> Full Name    </th>
+                    <th> Department   </th>
+                    <th> Joining date </th>
+                    <th> Salary       </th>
+                    <th> notes        </th>
+                    <th> add          </th>
+                </tr>
+            </thead> 
+            <tbody id="E_BODY">
+            </tbody>           
+        </table>
+
+    </div>
+    <button onclick="add_new_user()"></button>
+<script>
+  let User_Data =[];
+
+ function shows_Data (){
+    const data = document.getElementById("E_BODY");
+    data.innerHTML="";//clear previous rows in table............................
+
+    User_Data.forEach(a=>{
+            console.log(a);
+            console.log(a.E_ID);
+
+        data.innerHTML += 
+        `
+        <tr>
+            <td>${a.E_ID}</td>
+            <td>${a.FullName}</td>
+            <td>${a.Department}</td>
+            <td>${a.JoinigDate}</td>
+            <td>${a.Salary}</td>
+            <td>${a.Notes_ID}</td>
+            <td>
+              <button onclick="edit_User(${a.E_ID})">Edit</button>
+              <button onclick="delete_User(${a.E_ID})">Delete</button>
+            </td>
+        </tr>
+        `
+ })
+ };
+ function gets_Data (){
+    const E_ID = document.getElementById("E_ID").value ;
+    const FullName = document.getElementById("FullName").value ;
+    const Department = document.getElementById("Department").value ;
+    const JoinigDate = document.getElementById("Date").value ;
+    const Salary = document.getElementById("Salary").value ;
+    const Notes_ID = document.getElementById("Notes").value ;
+
+    new_User= {E_ID,FullName,Department,JoinigDate,Salary,Notes_ID}
+    // console.log(new_User)
+    return new_User
+ }
+  function add_new_user(){
+    const data = gets_Data();
+    // or 
+    // const data = new_User;
+    // console.log(data)
+
+      // Prevent duplicate IDs in array
+      if (User_Data.some(u => u.E_ID === data.E_ID)) {
+        alert("Employee ID must be unique!");
+        return;
+      }
+
+    User_Data.push(data);
+    clearForm();
+    shows_Data();
+    
+
+ }
+ function clearForm ()     {
+    document.getElementById("E_ID").value ="";
+    document.getElementById("FullName").value ="";
+    document.getElementById("Department").value ="";
+    document.getElementById("Date").value ="";
+    document.getElementById("Salary").value ="";
+    document.getElementById("Notes").value ="";
+
+ }
+//  console.log(E_ID)
+ function edit_User (a)  {
+     console.log(a);
+
+}
+ function delete_User (b){
+         console.log(b);
+    User_Data = User_Data.filter(u => u.E_ID !==b.toString()); // remove by ID
+    console.log(User_Data);
+    shows_Data()
+
+    
+//      if (index !== -1) {
+//     User_Data.splice(index, 1); // remove from array
+//     shows_Data();               // refresh the table
+//   }
+   
+
+
+}
+ 
+
+
+
+</script>
+</body>
+</html>
